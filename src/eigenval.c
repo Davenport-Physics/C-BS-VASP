@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <malloc.h>
 #include <string.h>
 
@@ -19,6 +20,7 @@ static char OutputFilename[128] = "upBand";
 
 static float *FirstColumn;
 static float *SecondColumn;
+static double FermiEnergy = 0.0;
 
 static int NumberOfFields   = 0;
 static int NumberOfSections = 0;
@@ -67,6 +69,23 @@ void ParseArgs(int argc, char *argv[]) {
 			} else {
 			
 				strncpy(OutputFilename, argv[x+1], 128);
+				
+			}
+			
+		} else if (strcasecmp(argv[x], "-fermi-energy") == 0) {
+		
+			if ((x + 1) == argc) {
+			
+				printf("Not enough data was passed");
+				
+			} else {
+			
+				FermiEnergy = atof(argv[x+1]);
+				if (FermiEnergy == 0.0) {
+				
+					printf("You passed an incorrect value for the FermiEnergy");
+					
+				}
 				
 			}
 			
@@ -120,6 +139,13 @@ void ReadData(int iteration) {
 	for (x = 0;x < NumberOfFields;x++) {
 
 		fscanf(fp, "%*d%f%f", &FirstColumn[x], &SecondColumn[x]);
+
+		if (FermiEnergy != 0.0) {
+		
+			FirstColumn[x]  -= FermiEnergy;
+			SecondColumn[x] -= FermiEnergy;
+			
+		}
 
 	}
 
