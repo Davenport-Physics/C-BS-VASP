@@ -5,7 +5,7 @@ This application is released under the GPL v2 License
 Compilation
 -----------
 
-gcc -Wall -O3 -o eigenval eigenval.c
+gcc -Wall -O3 -o eigenval *.c
 
 
 
