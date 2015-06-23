@@ -68,7 +68,8 @@ void arg_output_file(int index, int argc, char *argv[]) {
 
 	if ((index + 1) == argc) {
 	
-		printf("Did not pass output filename");
+		printf("Did not pass output filename\n");
+		exit(EXIT_FAILURE);
 		
 	} else {
 	
@@ -82,7 +83,8 @@ void arg_fermi_energy(int index, int argc, char *argv[]) {
 
 	if ( (index + 1) == argc ) {
 	
-		printf("Did not pass fermi energy");
+		printf("Did not pass fermi energy\n");
+		exit(EXIT_FAILURE);
 		
 	} else {
 		

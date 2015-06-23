@@ -22,6 +22,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <malloc.h>
 #include <string.h>
 
@@ -65,6 +66,13 @@ int main(int argc, char *argv[]) {
 void initialize() {
 
 	fp = fopen(Filename, "r");
+	
+	if (fp == NULL) {
+	
+		printf("%s file not found\n", Filename);
+		exit(EXIT_FAILURE);
+		
+	}
 
 	char Buffer[256];
 
