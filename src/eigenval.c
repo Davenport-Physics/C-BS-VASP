@@ -1,32 +1,43 @@
+/*
+ * eigenval.c
+ * 
+ * Copyright 2015 Michael Davenport <Davenport.physics@gmail.com>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
+
 #include <stdio.h>
-#include <stdlib.h>
 #include <malloc.h>
 #include <string.h>
 
+#include "arg.h"
+
 void initialize();
-void ParseArgs(int argc, char *argv[]);
 void ReadData(int iteration);
 void Transpose(int iteration);
 
-typedef enum Verbose {
-
-	FALSE = 0,
-	TRUE
-
-} Verbose;
-
 static char *Filename 			= "EIGENVAL";
-static char OutputFilename[128] = "upBand";
 
 static float *FirstColumn;
 static float *SecondColumn;
-static double FermiEnergy = 0.0;
 
 static int NumberOfFields   = 0;
 static int NumberOfSections = 0;
-
-static Verbose Debug = TRUE;
-static Verbose Tabs  = FALSE;
 
 static FILE *fp;
 
@@ -49,50 +60,6 @@ int main(int argc, char *argv[]) {
 	fclose(fp);
 
 	return 0;
-}
-
-void ParseArgs(int argc, char *argv[]) {
-
-	int x;
-	for (x = 1;x < argc;x++) {
-	
-		if (strcasecmp(argv[x], "-tabs") == 0) {
-		
-			Tabs = TRUE;
-			
-		} else if (strcasecmp(argv[x], "-output-file") == 0) {
-		
-			if ((x+1) == argc) {
-				
-				printf("Did not pass output file name.\n");
-				
-			} else {
-			
-				strncpy(OutputFilename, argv[x+1], 128);
-				
-			}
-			
-		} else if (strcasecmp(argv[x], "-fermi-energy") == 0) {
-		
-			if ((x + 1) == argc) {
-			
-				printf("Not enough data was passed");
-				
-			} else {
-			
-				FermiEnergy = atof(argv[x+1]);
-				if (FermiEnergy == 0.0) {
-				
-					printf("You passed an incorrect value for the FermiEnergy");
-					
-				}
-				
-			}
-			
-		}
-		
-	}
-	
 }
 
 void initialize() {
