@@ -24,7 +24,7 @@
 
 #include "arg.h"
 
-bool Debug = TRUE;
+bool Debug = FALSE;
 bool Tabs  = FALSE;
 
 char OutputFilename[128] = "upBand";
@@ -37,7 +37,10 @@ double FermiEnergy = 0.0;
 static const ArgFunctions ArgCheck[NUM_ARGS] = 
 {{"-tabs"        , &arg_tabs},
  {"-output-file" , &arg_output_file},
- {"-fermi-energy", &arg_fermi_energy}};
+ {"-o"           , &arg_output_file},
+ {"-fermi-energy", &arg_fermi_energy},
+ {"-fe"          , &arg_fermi_energy},
+ {"-debug"       , &arg_debug}};
 
 void ParseArgs(int argc, char *argv[]) {
 
@@ -61,6 +64,12 @@ void ParseArgs(int argc, char *argv[]) {
 void arg_tabs(int index, int argc, char *argv[]) {
 	
 	Tabs = TRUE;
+	
+}
+
+void arg_debug(int index, int argc, char *argv[]) {
+
+	Debug = TRUE;
 	
 }
 
@@ -93,6 +102,14 @@ void arg_fermi_energy(int index, int argc, char *argv[]) {
 		if (FermiEnergy == 0.0) {
 		
 			printf("Did not pass a good value for the Fermi energy");
+			
+		} else {
+			
+			if (Debug == TRUE) {
+			
+				printf("Fermi energy given = %f\n", &FermiEnergy);
+				
+			}
 			
 		}
 		
