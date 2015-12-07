@@ -28,7 +28,7 @@
 
 #include "arg.h"
 
-#define SOFTWARE_VERSION .1
+#define SOFTWARE_VERSION .11
 
 void initialize();
 void ReadData(int iteration);
@@ -46,7 +46,7 @@ static FILE *fp;
 
 int main(int argc, char *argv[]) {
 
-	printf("C-BS-VASP Version %f", SOFTWARE_VERSION);
+	printf("C-BS-VASP Version %f\n", SOFTWARE_VERSION);
 
 	initialize();
 	ParseArgs(argc, argv);
