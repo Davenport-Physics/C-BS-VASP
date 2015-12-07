@@ -32,7 +32,7 @@ char OutputFilename[128] = "upBand";
 double FermiEnergy = 0.0;
 
 
-#define NUM_ARGS 3
+#define NUM_ARGS 6
 
 static const ArgFunctions ArgCheck[NUM_ARGS] = 
 {{"-tabs"        , &arg_tabs},
@@ -107,7 +107,7 @@ void arg_fermi_energy(int index, int argc, char *argv[]) {
 			
 			if (Debug == TRUE) {
 			
-				printf("Fermi energy given = %f\n", &FermiEnergy);
+				printf("Fermi energy given = %f\n", FermiEnergy);
 				
 			}
 			
