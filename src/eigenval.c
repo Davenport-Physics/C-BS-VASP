@@ -34,7 +34,7 @@ void initialize();
 void ReadData(int iteration);
 void Transpose(int iteration);
 
-static char *Filename 			= "EIGENVAL";
+static char *Filename = "EIGENVAL";
 
 static float *FirstColumn;
 static float *SecondColumn;

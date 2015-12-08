@@ -24,8 +24,8 @@
 
 #include "arg.h"
 
-bool Debug = FALSE;
-bool Tabs  = FALSE;
+bool Debug = TRUE;
+bool Tabs  = TRUE;
 
 char OutputFilename[128] = "upBand";
 
