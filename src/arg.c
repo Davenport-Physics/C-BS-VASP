@@ -32,7 +32,7 @@ char OutputFilename[128] = "upBand";
 double FermiEnergy = 0.0;
 
 
-#define NUM_ARGS 6
+#define NUM_ARGS 7
 
 static const ArgFunctions ArgCheck[NUM_ARGS] = 
 {{"-tabs"        , &arg_tabs},
@@ -40,7 +40,8 @@ static const ArgFunctions ArgCheck[NUM_ARGS] =
  {"-o"           , &arg_output_file},
  {"-fermi-energy", &arg_fermi_energy},
  {"-fe"          , &arg_fermi_energy},
- {"-debug"       , &arg_debug}};
+ {"-debug"       , &arg_debug},
+ {"-auto"        , &arg_auto_fermi_energy}};
 
 void ParseArgs(int argc, char *argv[]) {
 
@@ -115,4 +116,46 @@ void arg_fermi_energy(int index, int argc, char *argv[]) {
 		
 	}
 	
+}
+
+void arg_auto_fermi_energy(int index, int argc, char *argv[]) {
+
+	char buffer[512];
+
+	FILE *fp = fopen("OUTCAR", "r");
+
+	if (fp == NULL) {
+
+		printf("No file OUTCAR found. Halting Execution \n");
+		exit(0);
+
+	}
+
+	while (fgets(buffer, 512, fp) != NULL) {
+
+		if (strncmp(buffer, " E-fermi :", 10) == 0) {
+
+			char temp[6];
+
+			temp[0] = buffer[13];
+			temp[1] = buffer[14];
+			temp[2] = buffer[15];
+			temp[3] = buffer[16];
+			temp[4] = buffer[17];
+			temp[5] = buffer[18];
+
+			FermiEnergy = atof(temp);
+
+			if (FermiEnergy == 0.0) {
+
+				printf("Failed to extract Fermi energy from OUTCAR\n");
+
+			}
+
+			break;
+		}
+
+	}
+
+	fclose(fp);
 }
