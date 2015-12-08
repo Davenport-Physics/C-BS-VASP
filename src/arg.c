@@ -35,12 +35,12 @@ double FermiEnergy = 0.0;
 #define NUM_ARGS 7
 
 static const ArgFunctions ArgCheck[NUM_ARGS] = 
-{{"-tabs"        , &arg_tabs},
+{{"-debug"       , &arg_debug},
+ {"-tabs"        , &arg_tabs},
  {"-output-file" , &arg_output_file},
  {"-o"           , &arg_output_file},
  {"-fermi-energy", &arg_fermi_energy},
  {"-fe"          , &arg_fermi_energy},
- {"-debug"       , &arg_debug},
  {"-auto"        , &arg_auto_fermi_energy}};
 
 void ParseArgs(int argc, char *argv[]) {
@@ -145,6 +145,12 @@ void arg_auto_fermi_energy(int index, int argc, char *argv[]) {
 			temp[5] = buffer[18];
 
 			FermiEnergy = atof(temp);
+
+			if (Debug == TRUE) {
+
+				printf("Extracted Fermi energy = %f\n", FermiEnergy);
+
+			}
 
 			if (FermiEnergy == 0.0) {
 
