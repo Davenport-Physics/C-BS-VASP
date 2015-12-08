@@ -28,7 +28,7 @@
 
 #include "arg.h"
 
-#define SOFTWARE_VERSION .12
+#define SOFTWARE_VERSION .2
 
 void initialize();
 void ReadData(int iteration);
@@ -46,7 +46,7 @@ static FILE *fp;
 
 int main(int argc, char *argv[]) {
 
-	printf("C-BS-VASP Version %f\n", SOFTWARE_VERSION);
+	printf("C-BS-VASP Version %g\n", SOFTWARE_VERSION);
 	printf("Make sure that you are performing spin polarization calculations. i.e ISPIN=2\n");
 
 	initialize();

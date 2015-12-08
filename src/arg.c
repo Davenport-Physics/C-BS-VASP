@@ -148,7 +148,7 @@ void arg_auto_fermi_energy(int index, int argc, char *argv[]) {
 
 			if (Debug == TRUE) {
 
-				printf("Extracted Fermi energy = %f\n", FermiEnergy);
+				printf("Extracted Fermi energy = %g\n", FermiEnergy);
 
 			}
 
