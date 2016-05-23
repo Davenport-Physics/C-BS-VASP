@@ -59,6 +59,7 @@ void ParseArgs(int argc, char *argv[]) {
 		}
 		
 	}
+	arg_auto_fermi_energy(0, argc, argv[]);
 	
 }
 
