@@ -87,7 +87,7 @@ void initialize() {
 	fscanf(fp, "%*d%d%d\n", &NumberOfSections, &NumberOfFields);
 
 	if (Debug == TRUE)
-		printf("NumberOfSections = %d, NumberOfFields = %d\n", NumberOfSections, NumberOfFields);
+		printf("Number of grids (Related to KPOINTS) = %d, Number of Bands = %d\n", NumberOfSections, NumberOfFields);
 
 	FirstColumn  = malloc(NumberOfFields * sizeof(float));
 	SecondColumn = malloc(NumberOfFields * sizeof(float));
