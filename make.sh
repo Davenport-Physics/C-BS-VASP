@@ -1,6 +1,6 @@
 #!/bin/bash
 
 cd src
-gcc -Wall -O3 -o eigenval *.c
+gcc -Wall -O3 -o CBSVASP *.c
 cd ..
-mv src/eigenval eigenval
+mv src/CBSVASP CBSVASP
