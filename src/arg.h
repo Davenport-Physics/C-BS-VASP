@@ -47,6 +47,7 @@ extern bool Debug;
 extern bool Tabs;
 
 extern char OutputFilename[128];
+extern char OutputFilenameSpinDown[128];
 
 extern double FermiEnergy;
 

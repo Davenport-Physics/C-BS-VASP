@@ -134,14 +134,17 @@ void ReadData(int iteration) {
 void Transpose(int iteration) {
 
 	FILE *upBand = fopen(OutputFilename, "a");
+	FILE *downBand = fopen(OutputFilenameSpinDown, "a");
 
 	if (Tabs == FALSE) {
 
 		fprintf(upBand, "%d,", iteration);
+		fprintf(downBand, "%d,", iteration);
 
 	} else {
 
 		fprintf(upBand, "%d\t", iteration);
+		fprintf(downBand, "%d\t", iteration);
 
 	}
 
@@ -150,17 +153,31 @@ void Transpose(int iteration) {
 
 		if (Tabs == FALSE) {
 
-			if ((x + 1) == NumberOfFields)
+			if ((x + 1) == NumberOfFields) {
+				
 				fprintf(upBand, "%.4f", FirstColumn[x]);
-			else
+				fprintf(downBand, "%.4f", SecondColumn[x]);
+				
+			} else {
+				
 				fprintf(upBand, "%.4f,", FirstColumn[x]);
+				fprintf(downBand, "%.4f,", SecondColumn[x]);
+				
+			}
 
 		} else {
 
-			if ((x + 1) == NumberOfFields)
+			if ((x + 1) == NumberOfFields) {
+				
 				fprintf(upBand, "%.4f", FirstColumn[x]);
-			else
+				fprintf(downBand, "%.4f", SecondColumn[x]);
+				
+			} else {
+				
 				fprintf(upBand, "%.4f\t", FirstColumn[x]);
+				fprintf(downBand, "%.4f\t", SecondColumn[x]);
+				
+			}
 
 		}
 
@@ -169,5 +186,6 @@ void Transpose(int iteration) {
 
 
 	fclose(upBand);
+	fclose(downBand);
 
 }

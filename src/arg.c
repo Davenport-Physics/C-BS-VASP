@@ -27,7 +27,8 @@
 bool Debug = TRUE;
 bool Tabs  = TRUE;
 
-char OutputFilename[128] = "upBand";
+char OutputFilename[128] = "SpinUp";
+char OutputFilenameSpinDown[128] = "SpinDown";
 
 double FermiEnergy = 0.0;
 
