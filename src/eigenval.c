@@ -28,7 +28,7 @@
 
 #include "arg.h"
 
-#define SOFTWARE_VERSION .2
+#define SOFTWARE_VERSION .2101
 
 void initialize();
 void ReadData(int iteration);
@@ -183,6 +183,7 @@ void Transpose(int iteration) {
 
 	}
 	fprintf(upBand, "\n");
+	fprintf(downBand,"\n");
 
 
 	fclose(upBand);
