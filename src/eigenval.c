@@ -28,7 +28,7 @@
 
 #include "arg.h"
 
-#define SOFTWARE_VERSION .2101
+#define SOFTWARE_VERSION .2102
 
 void initialize();
 void ReadData(int iteration);
@@ -87,7 +87,7 @@ void initialize() {
 	fscanf(fp, "%*d%d%d\n", &NumberOfSections, &NumberOfFields);
 
 	if (Debug == TRUE)
-		printf("NumberOfSections = %d, NumberOfFields = %d\n", NumberOfSections, NumberOfFields);
+		printf("Number of KPOINTS = %d, Number Of Bands = %d\n", NumberOfSections, NumberOfFields);
 
 	FirstColumn  = malloc(NumberOfFields * sizeof(float));
 	SecondColumn = malloc(NumberOfFields * sizeof(float));
