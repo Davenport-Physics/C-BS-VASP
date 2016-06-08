@@ -32,12 +32,17 @@
 
 void initialize();
 void ReadData(int iteration);
+void SetData(int iteration);
 void Transpose(int iteration);
+void WriteDFS();
 
 static char *Filename = "EIGENVAL";
 
 static float *FirstColumn;
 static float *SecondColumn;
+
+static float **AllSpinUp;
+static float **AllSpinDown;
 
 static int NumberOfFields   = 0;
 static int NumberOfSections = 0;
@@ -49,19 +54,34 @@ int main(int argc, char *argv[]) {
 	printf("C-BS-VASP Version %g\n", SOFTWARE_VERSION);
 	printf("Make sure that you are performing spin polarization calculations. i.e ISPIN=2\n");
 
-	initialize();
 	ParseArgs(argc, argv);
+	initialize();
 
 	int x;
 	for (x = 0;x < NumberOfSections;x++) {
 
-		ReadData((x + 1));
-		Transpose((x + 1));
+		if (Dfs == FALSE) {
+			
+			ReadData((x + 1));
+			Transpose((x + 1));
+			
+		} else {
+			
+			ReadData((x + 1));
+			SetData(x);
+		}
 
+	}
+	if (Dfs == TRUE) {
+	
+		WriteDFS();
+		
 	}
 
 	free(FirstColumn);
 	free(SecondColumn);
+	free(AllSpinUp);
+	free(AllSpinDown);
 
 	fclose(fp);
 
@@ -91,6 +111,21 @@ void initialize() {
 
 	FirstColumn  = malloc(NumberOfFields * sizeof(float));
 	SecondColumn = malloc(NumberOfFields * sizeof(float));
+	
+	if (Dfs == TRUE) {
+	
+		AllSpinUp   = malloc(NumberOfSections * sizeof(float *));
+		AllSpinDown = malloc(NumberOfSections * sizeof(float *));	
+		
+		int i;
+		for (i = 0;i < NumberOfSections;i++) {
+		
+			AllSpinUp[i]   = malloc(NumberOfFields * sizeof(float));
+			AllSpinDown[i] = malloc(NumberOfFields * sizeof(float));
+
+		}
+		
+	}
 
 }
 
@@ -129,6 +164,18 @@ void ReadData(int iteration) {
 
 	}
 
+}
+
+void SetData(int iteration) {
+
+	int i;
+	for (i = 0;i < NumberOfFields;i++) {
+	
+		AllSpinUp[iteration][i]   = FirstColumn[i];
+		AllSpinDown[iteration][i] = SecondColumn[i];
+		
+	}
+	
 }
 
 void Transpose(int iteration) {
@@ -189,4 +236,56 @@ void Transpose(int iteration) {
 	fclose(upBand);
 	fclose(downBand);
 
+}
+
+void WriteDFS() {
+	
+	FILE *upBand = fopen(OutputFilename, "w");
+	FILE *downBand = fopen(OutputFilenameSpinDown, "w");
+	
+	int i;
+	for (i = 0; i < NumberOfSections;i++) {
+		
+		if (Tabs == FALSE) {
+
+			fprintf(upBand, "%d,", (i+1));
+			fprintf(downBand, "%d,", (i+1));
+
+		} else {
+
+			fprintf(upBand, "%d\t", (i+1));
+			fprintf(downBand, "%d\t", (i+1));
+
+		}
+		
+	}
+	fprintf(upBand, "\n");
+	fprintf(downBand,"\n");
+	
+	int b;
+	for (b = 0;b < NumberOfFields;b++) {
+		
+		for (i = 0;i < NumberOfSections;i++) {
+		
+			if (Tabs == FALSE) {
+			
+				continue;
+				
+			} else {
+			
+				fprintf(upBand, "%.4f\t", AllSpinUp[i][b]);
+				fprintf(downBand,"%.4f\t", AllSpinDown[i][b]);
+				
+			}
+			
+		}
+		fprintf(upBand,"\n");
+		fprintf(downBand,"\n");
+		
+	}
+	
+	
+	fclose(upBand);
+	fclose(downBand);
+		
 }

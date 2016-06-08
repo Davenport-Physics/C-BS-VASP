@@ -45,6 +45,7 @@ typedef struct {
 
 extern bool Debug;
 extern bool Tabs;
+extern bool Dfs;
 
 extern char OutputFilename[128];
 extern char OutputFilenameSpinDown[128];
@@ -61,6 +62,7 @@ void arg_debug(int index, int argc, char *argv[]);
 void arg_fermi_energy(int index, int argc, char *argv[]);
 void arg_auto_fermi_energy(int index, int argc, char *argv[]);
 void arg_output_file(int index, int argc, char *argv[]);
+void arg_dfs(int index, int argc, char *argv[]);
 
 #endif
 

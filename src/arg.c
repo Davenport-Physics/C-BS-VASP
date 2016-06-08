@@ -26,6 +26,7 @@
 
 bool Debug = TRUE;
 bool Tabs  = TRUE;
+bool Dfs   = FALSE;
 
 char OutputFilename[128] = "SpinUp";
 char OutputFilenameSpinDown[128] = "SpinDown";
@@ -33,7 +34,7 @@ char OutputFilenameSpinDown[128] = "SpinDown";
 double FermiEnergy = 0.0;
 
 
-#define NUM_ARGS 7
+#define NUM_ARGS 8
 
 static const ArgFunctions ArgCheck[NUM_ARGS] = 
 {{"-debug"       , &arg_debug},
@@ -42,7 +43,8 @@ static const ArgFunctions ArgCheck[NUM_ARGS] =
  {"-o"           , &arg_output_file},
  {"-fermi-energy", &arg_fermi_energy},
  {"-fe"          , &arg_fermi_energy},
- {"-auto"        , &arg_auto_fermi_energy}};
+ {"-auto"        , &arg_auto_fermi_energy},
+ {"-dfs"         , &arg_dfs}};
 
 void ParseArgs(int argc, char *argv[]) {
 
@@ -166,4 +168,9 @@ void arg_auto_fermi_energy(int index, int argc, char *argv[]) {
 	}
 
 	fclose(fp);
+}
+void arg_dfs(int index, int argc, char *argv[]) {
+
+	Dfs = TRUE;
+	
 }
