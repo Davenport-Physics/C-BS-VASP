@@ -29,8 +29,8 @@
 bool Debug = FALSE;
 bool Tabs  = FALSE;
 
-char SpinUp[256]   = "SpinUp";
-char SpinDown[256] = "SpinDown";
+char SpinUp[MIN_BUFFER_LENGTH]   = "SpinUp";
+char SpinDown[MIN_BUFFER_LENGTH] = "SpinDown";
 
 double FermiEnergy = 0.0;
 
@@ -101,10 +101,10 @@ void arg_output_file(int index, int argc, char *argv[]) {
 		
 	} else {
 	
-		strncpy(SpinUp, argv[index + 1], 256);
+		strncpy(SpinUp, argv[index + 1], MIN_BUFFER_LENGTH);
 		strncat(SpinUp, "-Up", 3);
 		
-		strncpy(SpinDown, argv[index + 1], 256);
+		strncpy(SpinDown, argv[index + 1], MIN_BUFFER_LENGTH);
 		strncat(SpinUp, "-Down", 5);
 		
 	}

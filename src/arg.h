@@ -28,6 +28,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MIN_BUFFER_LENGTH 256
+
 typedef enum {
 
 	FALSE = 0,
@@ -46,8 +48,8 @@ typedef struct {
 extern bool Debug;
 extern bool Tabs;
 
-extern char SpinUp[256];
-extern char SpinDown[256];
+extern char SpinUp[MIN_BUFFER_LENGTH];
+extern char SpinDown[MIN_BUFFER_LENGTH];
 
 extern double FermiEnergy;
 
