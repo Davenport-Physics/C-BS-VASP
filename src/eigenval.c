@@ -174,6 +174,7 @@ void Transpose(int iteration) {
 				
 			} else {
 				
+				fprintf(upBand, "%.4f\t", FirstColumn[x]);
 				fprintf(downBand, "%.4f\t", SecondColumn[x]);
 				
 			}

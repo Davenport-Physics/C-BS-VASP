@@ -24,6 +24,8 @@
 
 #include "arg.h"
 
+#define NUM_ARGS 8
+
 bool Debug = FALSE;
 bool Tabs  = FALSE;
 
@@ -32,11 +34,17 @@ char SpinDown[256] = "SpinDown";
 
 double FermiEnergy = 0.0;
 
+void arg_all(int index, int argc, char *argv[]);
+void arg_tabs(int index, int argc, char *argv[]);
+void arg_debug(int index, int argc, char *argv[]);
+void arg_output_file(int index, int argc, char *argv[]);
+void arg_fermi_energy(int index, int argc, char *argv[]);
+void arg_auto_fermi_energy(int index, int argc, char *argv[]);
 
-#define NUM_ARGS 7
 
 static const ArgFunctions ArgCheck[NUM_ARGS] = 
-{{"-debug"       , &arg_debug},
+{{"-all"         , &arg_all},
+ {"-debug"       , &arg_debug},
  {"-tabs"        , &arg_tabs},
  {"-output-file" , &arg_output_file},
  {"-o"           , &arg_output_file},
@@ -60,6 +68,15 @@ void ParseArgs(int argc, char *argv[]) {
 		}
 		
 	}
+	
+}
+
+void arg_all(int index, int argc, char *argv[]) {
+
+	Tabs  = TRUE;
+	Debug = TRUE;
+	
+	arg_auto_fermi_energy(index, argc, argv);
 	
 }
 

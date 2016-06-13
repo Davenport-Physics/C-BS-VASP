@@ -52,15 +52,10 @@ extern char SpinDown[256];
 extern double FermiEnergy;
 
 /*
- * Arg parsing functions
+ * Arg parsing function
  * 
  * */
 void ParseArgs(int argc, char *argv[]); 
-void arg_tabs(int index, int argc, char *argv[]);
-void arg_debug(int index, int argc, char *argv[]);
-void arg_fermi_energy(int index, int argc, char *argv[]);
-void arg_auto_fermi_energy(int index, int argc, char *argv[]);
-void arg_output_file(int index, int argc, char *argv[]);
 
 #endif
 
