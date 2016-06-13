@@ -28,7 +28,7 @@
 
 #include "arg.h"
 
-#define SOFTWARE_VERSION .24
+#define SOFTWARE_VERSION .241
 
 void initialize(int argc, char *argv[]);
 void check_for_existing_files();
