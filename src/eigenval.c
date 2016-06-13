@@ -32,6 +32,7 @@
 
 void initialize(int argc, char *argv[]);
 void check_for_existing_files();
+void delete_existing_file(char File[MIN_BUFFER_LENGTH]);
 void ReadData(int iteration);
 void Transpose(int iteration);
 
@@ -83,11 +84,11 @@ void initialize(int argc, char *argv[]) {
 	
 	check_for_existing_files();
 
-	char Buffer[256];
+	char Buffer[MIN_BUFFER_LENGTH];
 
 	int x;
 	for (x = 0;x < 5;x++)
-		fgets(Buffer, 256, fp);
+		fgets(Buffer, MIN_BUFFER_LENGTH, fp);
 	fscanf(fp, "%*d%d%d\n", &NumberOfGrids, &NumberOfBands);
 
 	if (Debug == TRUE)
@@ -104,12 +105,7 @@ void check_for_existing_files() {
 	if (fp != NULL) {
 	
 		fclose(fp);
-		printf("Deleting prexisting %s\n", SpinUp);
-		char buffer[512] = {'\0'};
-		strncat(buffer, "rm ", 3);
-		strncat(buffer, SpinUp, 256);
-		FILE *rm = popen(buffer, "r");
-		pclose(rm);
+		delete_existing_file(SpinUp);
 		
 	}
 	
@@ -117,20 +113,26 @@ void check_for_existing_files() {
 	if (fp != NULL) {
 		
 		fclose(fp);
-		printf("Deleting prexisting %s\n", SpinDown);
-		char buffer[512] = {'\0'};
-		strncat(buffer, "rm ", 3);
-		strncat(buffer, SpinDown, 256);
-		FILE *rm = popen(buffer, "r");
-		pclose(rm);
+		delete_existing_file(SpinDown);
 		
 	}
 	
 }
 
+void delete_existing_file(char File[MIN_BUFFER_LENGTH]) {
+	
+	printf("Deleting prexisting %s\n", File);
+	char buffer[512] = {'\0'};
+	strncat(buffer, "rm ", 3);
+	strncat(buffer, File, MIN_BUFFER_LENGTH);
+	FILE *rm = popen(buffer, "r");
+	pclose(rm);
+	
+}
+
 void ReadData(int iteration) {
 
-	char Buffer[256];
+	char Buffer[MIN_BUFFER_LENGTH];
 
 	/*
 	 * This conditional statement fixes a bug that I do not want
@@ -139,13 +141,13 @@ void ReadData(int iteration) {
 	 * */
 	if (iteration == 1) {
 
-		fgets(Buffer, 256, fp);
+		fgets(Buffer, MIN_BUFFER_LENGTH, fp);
 
 	} else {
 
-		fgets(Buffer, 256, fp);
-		fgets(Buffer, 256, fp);
-		fgets(Buffer, 256, fp);
+		fgets(Buffer, MIN_BUFFER_LENGTH, fp);
+		fgets(Buffer, MIN_BUFFER_LENGTH, fp);
+		fgets(Buffer, MIN_BUFFER_LENGTH, fp);
 
 	}
 
