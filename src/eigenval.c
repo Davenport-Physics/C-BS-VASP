@@ -28,7 +28,7 @@
 
 #include "arg.h"
 
-#define SOFTWARE_VERSION .22
+#define SOFTWARE_VERSION .23
 
 void initialize();
 void ReadData(int iteration);
