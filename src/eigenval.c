@@ -34,13 +34,13 @@ void initialize();
 void ReadData(int iteration);
 void Transpose(int iteration);
 
-static char *Filename 			= "EIGENVAL";
+static char *Filename = "EIGENVAL";
 
 static float *FirstColumn;
 static float *SecondColumn;
 
-static int NumberOfFields   = 0;
-static int NumberOfSections = 0;
+static int NumberOfBands = 0;
+static int NumberOfGrids = 0;
 
 static FILE *fp;
 
@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
 	ParseArgs(argc, argv);
 
 	int x;
-	for (x = 0;x < NumberOfSections;x++) {
+	for (x = 0;x < NumberOfGrids;x++) {
 
 		ReadData((x + 1));
 		Transpose((x + 1));
@@ -84,13 +84,13 @@ void initialize() {
 	int x;
 	for (x = 0;x < 5;x++)
 		fgets(Buffer, 256, fp);
-	fscanf(fp, "%*d%d%d\n", &NumberOfSections, &NumberOfFields);
+	fscanf(fp, "%*d%d%d\n", &NumberOfGrids, &NumberOfFields);
 
 	if (Debug == TRUE)
-		printf("Number of grids (Related to KPOINTS) = %d, Number of Bands = %d\n", NumberOfSections, NumberOfFields);
+		printf("Number of grids (Related to KPOINTS) = %d, Number of Bands = %d\n", NumberOfGrids, NumberOfBands);
 
-	FirstColumn  = malloc(NumberOfFields * sizeof(float));
-	SecondColumn = malloc(NumberOfFields * sizeof(float));
+	FirstColumn  = malloc(NumberOfBands * sizeof(float));
+	SecondColumn = malloc(NumberOfBands * sizeof(float));
 
 }
 
@@ -116,7 +116,7 @@ void ReadData(int iteration) {
 	}
 
 	int x;
-	for (x = 0;x < NumberOfFields;x++) {
+	for (x = 0;x < NumberOfBands;x++) {
 
 		fscanf(fp, "%*d%f%f", &FirstColumn[x], &SecondColumn[x]);
 
@@ -133,41 +133,59 @@ void ReadData(int iteration) {
 
 void Transpose(int iteration) {
 
-	FILE *upBand = fopen(OutputFilename, "a");
+	FILE *upBand   = fopen(SpinUp, "a");
+	FILE *downBand = fopen(SpinDown, "a");
 
 	if (Tabs == FALSE) {
 
 		fprintf(upBand, "%d,", iteration);
+		fprintf(downBand, "%d,", iteration);
 
 	} else {
 
 		fprintf(upBand, "%d\t", iteration);
+		fprintf(downBand, "%d\t", iteration);
 
 	}
 
 	int x;
-	for (x = 0;x < NumberOfFields;x++) {
+	for (x = 0;x < NumberOfBands;x++) {
 
 		if (Tabs == FALSE) {
 
-			if ((x + 1) == NumberOfFields)
+			if ((x + 1) == NumberOfBands) {
+				
 				fprintf(upBand, "%.4f", FirstColumn[x]);
-			else
+				fprintf(downBand, "%.4f", SecondColumn[x]);
+				
+			} else {
+				
 				fprintf(upBand, "%.4f,", FirstColumn[x]);
+				fprintf(downBand, "%.4f,", SecondColumn[x]);
+				
+			}
 
 		} else {
 
-			if ((x + 1) == NumberOfFields)
+			if ((x + 1) == NumberOfBands) {
+				
 				fprintf(upBand, "%.4f", FirstColumn[x]);
-			else
-				fprintf(upBand, "%.4f\t", FirstColumn[x]);
+				fprintf(downBand, "%.4f", SecondColumn[x]);
+				
+			} else {
+				
+				fprintf(downBand, "%.4f\t", SecondColumn[x]);
+				
+			}
 
 		}
 
 	}
 	fprintf(upBand, "\n");
+	fprintf(downBand, "\n");
 
 
 	fclose(upBand);
+	fclose(downBand);
 
 }

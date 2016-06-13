@@ -46,7 +46,8 @@ typedef struct {
 extern bool Debug;
 extern bool Tabs;
 
-extern char OutputFilename[128];
+extern char SpinUp[256];
+extern char SpinDown[256];
 
 extern double FermiEnergy;
 

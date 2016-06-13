@@ -27,7 +27,8 @@
 bool Debug = FALSE;
 bool Tabs  = FALSE;
 
-char OutputFilename[128] = "upBand";
+char SpinUp[256]   = "SpinUp";
+char SpinDown[256] = "SpinDown";
 
 double FermiEnergy = 0.0;
 
@@ -83,7 +84,11 @@ void arg_output_file(int index, int argc, char *argv[]) {
 		
 	} else {
 	
-		strncpy(OutputFilename, argv[index + 1], 128);
+		strncpy(SpinUp, argv[index + 1], 256);
+		strncat(SpinUp, "-Up", 3);
+		
+		strncpy(SpinDown, argv[index + 1], 256);
+		strncat(SpinUp, "-Down", 5);
 		
 	}
 	
