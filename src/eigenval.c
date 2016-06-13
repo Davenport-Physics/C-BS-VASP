@@ -84,7 +84,7 @@ void initialize() {
 	int x;
 	for (x = 0;x < 5;x++)
 		fgets(Buffer, 256, fp);
-	fscanf(fp, "%*d%d%d\n", &NumberOfGrids, &NumberOfFields);
+	fscanf(fp, "%*d%d%d\n", &NumberOfGrids, &NumberOfBands);
 
 	if (Debug == TRUE)
 		printf("Number of grids (Related to KPOINTS) = %d, Number of Bands = %d\n", NumberOfGrids, NumberOfBands);
