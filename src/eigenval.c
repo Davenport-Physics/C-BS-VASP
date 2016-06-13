@@ -28,9 +28,10 @@
 
 #include "arg.h"
 
-#define SOFTWARE_VERSION .23
+#define SOFTWARE_VERSION .24
 
-void initialize();
+void initialize(int argc, char *argv[]);
+void check_for_existing_files();
 void ReadData(int iteration);
 void Transpose(int iteration);
 
@@ -49,8 +50,7 @@ int main(int argc, char *argv[]) {
 	printf("C-BS-VASP Version %g\n", SOFTWARE_VERSION);
 	printf("Make sure that you are performing spin polarization calculations. i.e ISPIN=2\n");
 
-	initialize();
-	ParseArgs(argc, argv);
+	initialize(argc, argv);
 
 	int x;
 	for (x = 0;x < NumberOfGrids;x++) {
@@ -68,8 +68,10 @@ int main(int argc, char *argv[]) {
 	return 0;
 }
 
-void initialize() {
+void initialize(int argc, char *argv[]) {
 
+	ParseArgs(argc, argv);
+	
 	fp = fopen(Filename, "r");
 
 	if (fp == NULL) {
@@ -78,6 +80,8 @@ void initialize() {
 		exit(EXIT_FAILURE);
 
 	}
+	
+	check_for_existing_files();
 
 	char Buffer[256];
 
@@ -92,6 +96,36 @@ void initialize() {
 	FirstColumn  = malloc(NumberOfBands * sizeof(float));
 	SecondColumn = malloc(NumberOfBands * sizeof(float));
 
+}
+void check_for_existing_files() {
+
+	FILE *fp = fopen(SpinUp, "r");
+	
+	if (fp != NULL) {
+	
+		fclose(fp);
+		printf("Deleting prexisting %s\n", SpinUp);
+		char buffer[512] = {'\0'};
+		strncat(buffer, "rm ", 3);
+		strncat(buffer, SpinUp, 256);
+		FILE *rm = popen(buffer, "r");
+		pclose(rm);
+		
+	}
+	
+	fp = fopen(SpinDown, "r");
+	if (fp != NULL) {
+		
+		fclose(fp);
+		printf("Deleting prexisting %s\n", SpinDown);
+		char buffer[512] = {'\0'};
+		strncat(buffer, "rm ", 3);
+		strncat(buffer, SpinDown, 256);
+		FILE *rm = popen(buffer, "r");
+		pclose(rm);
+		
+	}
+	
 }
 
 void ReadData(int iteration) {
