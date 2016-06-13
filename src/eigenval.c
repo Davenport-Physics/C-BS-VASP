@@ -28,7 +28,7 @@
 
 #include "arg.h"
 
-#define SOFTWARE_VERSION .241
+static char *SOFTWARE_VERSION = ".241";
 
 void initialize(int argc, char *argv[]);
 void check_for_existing_files();
@@ -48,7 +48,7 @@ static FILE *fp;
 
 int main(int argc, char *argv[]) {
 
-	printf("C-BS-VASP Version %g\n", SOFTWARE_VERSION);
+	printf("C-BS-VASP Version %s\n", SOFTWARE_VERSION);
 	printf("Make sure that you are performing spin polarization calculations. i.e ISPIN=2\n");
 
 	initialize(argc, argv);
