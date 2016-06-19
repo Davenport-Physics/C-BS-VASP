@@ -25,10 +25,11 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "arg.h"
 
-static char *SOFTWARE_VERSION = ".241";
+static char *SOFTWARE_VERSION = ".25";
 static char *Filename         = "EIGENVAL";
 
 static float *SpinUpColumn;
@@ -39,11 +40,11 @@ static int NumberOfGrids = 0;
 
 static FILE *fp;
 
-void initialize(int argc, char *argv[]);
-void check_for_existing_files();
-void delete_existing_file(char File[MIN_BUFFER_LENGTH]);
-void ReadData(int iteration);
-void Transpose(int iteration);
+static void initialize(int argc, char *argv[]);
+static void check_for_existing_files();
+static void delete_existing_file(char File[MIN_BUFFER_LENGTH]);
+static void ReadData(int iteration);
+static void Transpose(int iteration);
 
 int main(int argc, char *argv[]) {
 
@@ -141,12 +142,17 @@ void check_for_existing_files() {
 
 void delete_existing_file(char File[MIN_BUFFER_LENGTH]) {
 	
-	printf("Deleting prexisting %s\n", File);
-	char buffer[512] = {'\0'};
-	strncat(buffer, "rm ", 3);
-	strncat(buffer, File, MIN_BUFFER_LENGTH);
-	FILE *rm = popen(buffer, "r");
-	pclose(rm);
+	int code = unlink(File);
+	
+	if (code == 0) {
+	
+		printf("Deleted %s successfully", File);
+		
+	} else if (code == 1) {
+	
+		printf("There was an error deleting file %s", File);
+		
+	}
 	
 }
 

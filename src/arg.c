@@ -34,12 +34,12 @@ char SpinDown[MIN_BUFFER_LENGTH] = "SpinDown";
 
 double FermiEnergy = 0.0;
 
-void arg_all(int index, int argc, char *argv[]);
-void arg_tabs(int index, int argc, char *argv[]);
-void arg_debug(int index, int argc, char *argv[]);
-void arg_output_file(int index, int argc, char *argv[]);
-void arg_fermi_energy(int index, int argc, char *argv[]);
-void arg_auto_fermi_energy(int index, int argc, char *argv[]);
+static void arg_all(int index, int argc, char *argv[]);
+static void arg_tabs(int index, int argc, char *argv[]);
+static void arg_debug(int index, int argc, char *argv[]);
+static void arg_output_file(int index, int argc, char *argv[]);
+static void arg_fermi_energy(int index, int argc, char *argv[]);
+static void arg_auto_fermi_energy(int index, int argc, char *argv[]);
 
 
 static const ArgFunctions ArgCheck[NUM_ARGS] = 
