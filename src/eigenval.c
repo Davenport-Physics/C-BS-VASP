@@ -146,11 +146,12 @@ void delete_existing_file(char File[MIN_BUFFER_LENGTH]) {
 	
 	if (code == 0) {
 	
-		printf("Deleted %s successfully", File);
+		printf("Deleted old %s successfully.\n", File);
 		
 	} else if (code == 1) {
 	
-		printf("There was an error deleting file %s", File);
+		printf("There was an error deleting file %s.\n", File);
+		printf("Please delete the file manually.\n");
 		
 	}
 	
