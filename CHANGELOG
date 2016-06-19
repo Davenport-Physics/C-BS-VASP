@@ -1,0 +1,7 @@
+Version .25
+~~~~~~~~~~~
+
+-FEATURE:Program will now delete files under Windows (Linux support was providedpreviously)
+-MISC:Code clean up. Variables are now defined in a less ambiguous way.
+-MISC:Several functions have now been declared static
+-MISC:Changelog now added to document changes between versions
