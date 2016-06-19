@@ -38,8 +38,8 @@ void Transpose(int iteration);
 
 static char *Filename = "EIGENVAL";
 
-static float *FirstColumn;
-static float *SecondColumn;
+static float *SpinUpColumn;
+static float *SpinDownColumn;
 
 static int NumberOfBands = 0;
 static int NumberOfGrids = 0;
@@ -61,8 +61,8 @@ int main(int argc, char *argv[]) {
 
 	}
 
-	free(FirstColumn);
-	free(SecondColumn);
+	free(SpinUpColumn);
+	free(SpinDownColumn);
 
 	fclose(fp);
 
@@ -94,25 +94,25 @@ void initialize(int argc, char *argv[]) {
 	if (Debug == TRUE)
 		printf("Number of grids (Related to KPOINTS) = %d, Number of Bands = %d\n", NumberOfGrids, NumberOfBands);
 
-	FirstColumn  = malloc(NumberOfBands * sizeof(float));
-	SecondColumn = malloc(NumberOfBands * sizeof(float));
+	SpinUpColumn  = malloc(NumberOfBands * sizeof(float));
+	SpinDownColumn = malloc(NumberOfBands * sizeof(float));
 
 }
 void check_for_existing_files() {
 
-	FILE *fp = fopen(SpinUp, "r");
+	FILE *localfp = fopen(SpinUp, "r");
 	
-	if (fp != NULL) {
+	if (localfp != NULL) {
 	
-		fclose(fp);
+		fclose(localfp);
 		delete_existing_file(SpinUp);
 		
 	}
 	
-	fp = fopen(SpinDown, "r");
-	if (fp != NULL) {
+	localfp = fopen(SpinDown, "r");
+	if (localfp != NULL) {
 		
-		fclose(fp);
+		fclose(localfp);
 		delete_existing_file(SpinDown);
 		
 	}
@@ -154,12 +154,12 @@ void ReadData(int iteration) {
 	int x;
 	for (x = 0;x < NumberOfBands;x++) {
 
-		fscanf(fp, "%*d%f%f", &FirstColumn[x], &SecondColumn[x]);
+		fscanf(fp, "%*d%f%f", &SpinUpColumn[x], &SpinDownColumn[x]);
 
 		if (FermiEnergy != 0.0) {
 
-			FirstColumn[x]  -= FermiEnergy;
-			SecondColumn[x] -= FermiEnergy;
+			SpinUpColumn[x]  -= FermiEnergy;
+			SpinDownColumn[x] -= FermiEnergy;
 
 		}
 
@@ -169,18 +169,18 @@ void ReadData(int iteration) {
 
 void Transpose(int iteration) {
 
-	FILE *upBand   = fopen(SpinUp, "a");
-	FILE *downBand = fopen(SpinDown, "a");
+	FILE *SpinUpBand   = fopen(SpinUp, "a");
+	FILE *SpinDownBand = fopen(SpinDown, "a");
 
 	if (Tabs == FALSE) {
 
-		fprintf(upBand, "%d,", iteration);
-		fprintf(downBand, "%d,", iteration);
+		fprintf(SpinUpBand, "%d,", iteration);
+		fprintf(SpinDownBand, "%d,", iteration);
 
 	} else {
 
-		fprintf(upBand, "%d\t", iteration);
-		fprintf(downBand, "%d\t", iteration);
+		fprintf(SpinUpBand, "%d\t", iteration);
+		fprintf(SpinDownBand, "%d\t", iteration);
 
 	}
 
@@ -191,13 +191,13 @@ void Transpose(int iteration) {
 
 			if ((x + 1) == NumberOfBands) {
 				
-				fprintf(upBand, "%.4f", FirstColumn[x]);
-				fprintf(downBand, "%.4f", SecondColumn[x]);
+				fprintf(SpinUpBand, "%.4f", SpinUpColumn[x]);
+				fprintf(SpinDownBand, "%.4f", SpinDownColumn[x]);
 				
 			} else {
 				
-				fprintf(upBand, "%.4f,", FirstColumn[x]);
-				fprintf(downBand, "%.4f,", SecondColumn[x]);
+				fprintf(SpinUpBand, "%.4f,", SpinUpColumn[x]);
+				fprintf(SpinDownBand, "%.4f,", SpinDownColumn[x]);
 				
 			}
 
@@ -205,24 +205,24 @@ void Transpose(int iteration) {
 
 			if ((x + 1) == NumberOfBands) {
 				
-				fprintf(upBand, "%.4f", FirstColumn[x]);
-				fprintf(downBand, "%.4f", SecondColumn[x]);
+				fprintf(SpinUpBand, "%.4f", SpinUpColumn[x]);
+				fprintf(SpinDownBand, "%.4f", SpinDownColumn[x]);
 				
 			} else {
 				
-				fprintf(upBand, "%.4f\t", FirstColumn[x]);
-				fprintf(downBand, "%.4f\t", SecondColumn[x]);
+				fprintf(SpinUpBand, "%.4f\t", SpinUpColumn[x]);
+				fprintf(SpinDownBand, "%.4f\t", SpinDownColumn[x]);
 				
 			}
 
 		}
 
 	}
-	fprintf(upBand, "\n");
-	fprintf(downBand, "\n");
+	fprintf(SpinUpBand, "\n");
+	fprintf(SpinDownBand, "\n");
 
 
-	fclose(upBand);
-	fclose(downBand);
+	fclose(SpinUpBand);
+	fclose(SpinDownBand);
 
 }
