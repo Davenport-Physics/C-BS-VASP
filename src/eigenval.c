@@ -29,14 +29,7 @@
 #include "arg.h"
 
 static char *SOFTWARE_VERSION = ".241";
-
-void initialize(int argc, char *argv[]);
-void check_for_existing_files();
-void delete_existing_file(char File[MIN_BUFFER_LENGTH]);
-void ReadData(int iteration);
-void Transpose(int iteration);
-
-static char *Filename = "EIGENVAL";
+static char *Filename         = "EIGENVAL";
 
 static float *SpinUpColumn;
 static float *SpinDownColumn;
@@ -45,6 +38,12 @@ static int NumberOfBands = 0;
 static int NumberOfGrids = 0;
 
 static FILE *fp;
+
+void initialize(int argc, char *argv[]);
+void check_for_existing_files();
+void delete_existing_file(char File[MIN_BUFFER_LENGTH]);
+void ReadData(int iteration);
+void Transpose(int iteration);
 
 int main(int argc, char *argv[]) {
 
@@ -68,6 +67,15 @@ int main(int argc, char *argv[]) {
 
 	return 0;
 }
+
+static char *RegularFloatString = "%.4f";
+static char *TabsFloatString    = "%.4f\t";
+static char *CommaFloatString   = "%.4f,";
+static char *FloatString;
+
+static char *TabsIntString  = "%d\t";
+static char *CommaIntString = "%d,";
+static char *IntString;
 
 void initialize(int argc, char *argv[]) {
 
@@ -96,6 +104,18 @@ void initialize(int argc, char *argv[]) {
 
 	SpinUpColumn  = malloc(NumberOfBands * sizeof(float));
 	SpinDownColumn = malloc(NumberOfBands * sizeof(float));
+	
+	if (Tabs == TRUE) {
+	
+		FloatString = TabsFloatString;
+		IntString   = TabsIntString;
+		
+	} else {
+		
+		FloatString = CommaFloatString;
+		IntString   = CommaIntString;
+		
+	}
 
 }
 void check_for_existing_files() {
@@ -172,49 +192,22 @@ void Transpose(int iteration) {
 	FILE *SpinUpBand   = fopen(SpinUp, "a");
 	FILE *SpinDownBand = fopen(SpinDown, "a");
 
-	if (Tabs == FALSE) {
-
-		fprintf(SpinUpBand, "%d,", iteration);
-		fprintf(SpinDownBand, "%d,", iteration);
-
-	} else {
-
-		fprintf(SpinUpBand, "%d\t", iteration);
-		fprintf(SpinDownBand, "%d\t", iteration);
-
-	}
+	fprintf(SpinUpBand, IntString, iteration);
+	fprintf(SpinDownBand, IntString, iteration);
 
 	int x;
 	for (x = 0;x < NumberOfBands;x++) {
 
-		if (Tabs == FALSE) {
-
-			if ((x + 1) == NumberOfBands) {
+		if ((x + 1) == NumberOfBands) {
 				
-				fprintf(SpinUpBand, "%.4f", SpinUpColumn[x]);
-				fprintf(SpinDownBand, "%.4f", SpinDownColumn[x]);
+			fprintf(SpinUpBand, RegularFloatString, SpinUpColumn[x]);
+			fprintf(SpinDownBand, RegularFloatString, SpinDownColumn[x]);
 				
-			} else {
-				
-				fprintf(SpinUpBand, "%.4f,", SpinUpColumn[x]);
-				fprintf(SpinDownBand, "%.4f,", SpinDownColumn[x]);
-				
-			}
-
 		} else {
-
-			if ((x + 1) == NumberOfBands) {
 				
-				fprintf(SpinUpBand, "%.4f", SpinUpColumn[x]);
-				fprintf(SpinDownBand, "%.4f", SpinDownColumn[x]);
+			fprintf(SpinUpBand, FloatString, SpinUpColumn[x]);
+			fprintf(SpinDownBand, FloatString, SpinDownColumn[x]);
 				
-			} else {
-				
-				fprintf(SpinUpBand, "%.4f\t", SpinUpColumn[x]);
-				fprintf(SpinDownBand, "%.4f\t", SpinDownColumn[x]);
-				
-			}
-
 		}
 
 	}
